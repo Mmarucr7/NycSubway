@@ -53,14 +53,12 @@ function App() {
   }, [startStation, endStation, showRoute])
 
   return (
-    <div className="app min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-6">
-      <header className="mb-8 text-center">
-        <h1 className="text-4xl font-bold mb-3 text-gray-800">NYC Subway Pathfinder</h1>
-        <p className="text-lg text-gray-600 mb-2">
+    <div className="app min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 p-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      <header className="mb-8 text-center relative z-10">
+        <h1 className="text-4xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">NYC Subway Pathfinder</h1>
+        <p className="text-lg text-gray-700 mb-2">
           Fastest route between NYC subway stations using Dijkstra's algorithm
-        </p>
-        <p className="text-sm text-gray-500">
-          
         </p>
       </header>
       
@@ -91,7 +89,7 @@ function App() {
                 }}
                 disabled={isLoading}
                 className={`
-                  px-6 py-2 text-white rounded-lg transition-all duration-200 shadow-md
+                  px-8 py-3 text-lg font-medium text-white rounded-lg transition-all duration-200 shadow-md
                   ${isLoading 
                     ? 'bg-blue-300 cursor-not-allowed' 
                     : 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5'}
@@ -105,7 +103,7 @@ function App() {
               onClick={() => setShowRoute(true)}
               disabled={!startStation || !endStation || isLoading}
               className={`
-                px-6 py-2 text-white rounded-lg transition-all duration-200 shadow-md
+                px-8 py-3 text-lg font-medium text-white rounded-lg transition-all duration-200 shadow-md
                 ${(!startStation || !endStation || isLoading)
                   ? 'bg-blue-300 cursor-not-allowed'
                   : 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5'}

@@ -24,8 +24,10 @@ const StationSelector: React.FC<StationSelectorProps> = ({
     <div className="station-selector relative">
       <div 
         className={`
-          p-4 border-2 rounded-lg shadow-lg bg-white cursor-pointer transition-all duration-200
-          ${isOpen ? 'border-blue-500' : 'border-gray-200 hover:border-blue-300'}
+          p-4 border-2 rounded-lg shadow-lg bg-white/80 backdrop-blur-md cursor-pointer transition-all duration-300
+          ${isOpen 
+            ? 'border-indigo-500 shadow-indigo-100 scale-[1.02]' 
+            : 'border-gray-200/50 hover:border-indigo-300 hover:shadow-md hover:scale-[1.01]'}
         `}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -34,14 +36,14 @@ const StationSelector: React.FC<StationSelectorProps> = ({
           <span className="text-gray-700 font-medium">
             {selectedStationData ? selectedStationData.name : 'Select a station'}
           </span>
-          <span className="text-gray-500 transform transition-transform duration-200">
-            {isOpen ? '▲' : '▼'}
+          <span className={`text-gray-500 transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+            ▼
           </span>
         </div>
       </div>
       
       {isOpen && (
-        <div className="station-list absolute mt-2 w-full max-h-96 overflow-y-auto border-2 border-gray-200 rounded-lg shadow-lg bg-white transform transition-all duration-200">
+        <div className="station-list absolute mt-2 w-full max-h-96 overflow-y-auto border-2 border-gray-200/50 rounded-lg shadow-lg bg-white/90 backdrop-blur-md transform transition-all duration-300 animate-fadeIn">
           {stations.map(station => (
             <div
               key={station.id}
@@ -50,10 +52,10 @@ const StationSelector: React.FC<StationSelectorProps> = ({
                 setIsOpen(false);
               }}
               className={`
-                station-item p-3 border-b last:border-b-0 cursor-pointer transition-colors duration-150
+                station-item p-3 border-b last:border-b-0 cursor-pointer transition-all duration-200
                 ${selectedStation === station.id 
-                  ? 'bg-blue-50 border-l-4 border-blue-500' 
-                  : 'hover:bg-gray-50'}
+                  ? 'bg-indigo-50/80 border-l-4 border-indigo-500 scale-[1.01]' 
+                  : 'hover:bg-gray-50/80 hover:scale-[1.005]'}
               `}
             >
               <div className="flex justify-between items-center">
@@ -64,7 +66,7 @@ const StationSelector: React.FC<StationSelectorProps> = ({
                     return (
                       <span
                         key={lineId}
-                        className="line-badge w-5 h-5 rounded-full text-white text-xs flex items-center justify-center shadow-sm"
+                        className="line-badge w-5 h-5 rounded-full text-white text-xs flex items-center justify-center shadow-sm transform transition-transform duration-200 hover:scale-110"
                         style={{ backgroundColor: line?.color || '#ccc' }}
                       >
                         {lineId}
