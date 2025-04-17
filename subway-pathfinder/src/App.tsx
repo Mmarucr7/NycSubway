@@ -57,10 +57,10 @@ function App() {
       <header className="mb-8 text-center">
         <h1 className="text-4xl font-bold mb-3 text-gray-800">NYC Subway Pathfinder</h1>
         <p className="text-lg text-gray-600 mb-2">
-          Find the fastest route between NYC subway stations using Dijkstra's algorithm
+          Fastest route between NYC subway stations using Dijkstra's algorithm
         </p>
         <p className="text-sm text-gray-500">
-          Integrating real New York City map with accurate station locations and fastest route visualization
+          
         </p>
       </header>
       
@@ -171,7 +171,6 @@ function App() {
       </main>
       
       <footer className="mt-12 text-center text-gray-500 text-sm">
-        <p>Created with React, TypeScript, and Dijkstra's algorithm</p>
         <p className="mt-1">© {new Date().getFullYear()} NYC Subway Pathfinder</p>
       </footer>
     </div>
