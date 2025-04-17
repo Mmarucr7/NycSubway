@@ -53,10 +53,10 @@ function App() {
   }, [startStation, endStation, showRoute])
 
   return (
-    <div className="app min-h-screen bg-gray-100 p-6">
-      <header className="mb-6 text-center">
-        <h1 className="text-3xl font-bold mb-2">NYC Subway Pathfinder</h1>
-        <p className="text-gray-600 mb-2">
+    <div className="app min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-6">
+      <header className="mb-8 text-center">
+        <h1 className="text-4xl font-bold mb-3 text-gray-800">NYC Subway Pathfinder</h1>
+        <p className="text-lg text-gray-600 mb-2">
           Find the fastest route between NYC subway stations using Dijkstra's algorithm
         </p>
         <p className="text-sm text-gray-500">
@@ -64,9 +64,9 @@ function App() {
         </p>
       </header>
       
-      <main className="container mx-auto">
-        <div className="station-selectors mb-6 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <main className="container mx-auto max-w-7xl">
+        <div className="station-selectors mb-8 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <StationSelector
               stations={STATIONS}
               selectedStation={startStation}
@@ -90,9 +90,12 @@ function App() {
                   setEndStation(startStation)
                 }}
                 disabled={isLoading}
-                className={`p-2 text-white rounded transition-colors ${
-                  isLoading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600 cursor-pointer'
-                }`}
+                className={`
+                  px-6 py-2 text-white rounded-lg transition-all duration-200 shadow-md
+                  ${isLoading 
+                    ? 'bg-blue-300 cursor-not-allowed' 
+                    : 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5'}
+                `}
               >
                 Swap Stations
               </button>
@@ -101,11 +104,12 @@ function App() {
             <button
               onClick={() => setShowRoute(true)}
               disabled={!startStation || !endStation || isLoading}
-              className={`p-2 text-white rounded transition-colors ${
-                (!startStation || !endStation || isLoading) 
-                  ? 'bg-green-300 cursor-not-allowed' 
-                  : 'bg-green-500 hover:bg-green-600 cursor-pointer'
-              }`}
+              className={`
+                px-6 py-2 text-white rounded-lg transition-all duration-200 shadow-md
+                ${(!startStation || !endStation || isLoading)
+                  ? 'bg-blue-300 cursor-not-allowed'
+                  : 'bg-blue-500 hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5'}
+              `}
             >
               {isLoading ? 'Calculating...' : 'Find Route'}
             </button>
@@ -113,42 +117,60 @@ function App() {
         </div>
         
         {showRoute && (
-          <div className="route-container flex flex-col lg:flex-row gap-6">
+          <div className="route-container flex flex-col lg:flex-row gap-8">
             <div className="map-container lg:w-2/4">
-              <div className="p-2 bg-white rounded-lg shadow-md mb-2">
-                <h2 className="text-center font-bold">Interactive Map View</h2>
-                <p className="text-xs text-center text-gray-500 mb-2">Click on stations for more details</p>
+              <div className="p-4 bg-white rounded-lg shadow-lg mb-4">
+                <h2 className="text-xl font-bold text-center text-gray-800">Interactive Map View</h2>
+                <p className="text-sm text-center text-gray-500 mt-1">Click on stations for more details</p>
               </div>
-              <SubwayMap
-                stations={STATIONS}
-                connections={BIDIRECTIONAL_CONNECTIONS}
-                path={pathConnections}
-                startStation={startStation}
-                endStation={endStation}
-              />
+              <div className="bg-white rounded-lg shadow-lg p-4">
+                <SubwayMap
+                  stations={STATIONS}
+                  connections={BIDIRECTIONAL_CONNECTIONS}
+                  path={pathConnections}
+                  startStation={startStation}
+                  endStation={endStation}
+                />
+              </div>
             </div>
             
             <div className="route-details-container lg:w-2/4">
-              <div className="p-2 bg-white rounded-lg shadow-md mb-2">
-                <h2 className="text-center font-bold">Step-by-Step Directions</h2>
-                <p className="text-xs text-center text-gray-500">For the quickest route</p>
+              <div className="p-4 bg-white rounded-lg shadow-lg mb-4">
+                <h2 className="text-xl font-bold text-center text-gray-800">Step-by-Step Directions</h2>
+                <p className="text-sm text-center text-gray-500 mt-1">For the quickest route</p>
               </div>
               {pathResult && (
-                <div className="route-summary p-4 border rounded-lg shadow-md bg-white mb-4">
-                  <h3 className="font-bold mb-2">Quickest Route Summary</h3>
-                  <p>Total time: <span className="font-medium">{pathResult.totalTime} minutes</span></p>
-                  <p>Travel time: <span className="font-medium">{pathResult.totalTravelTime} minutes</span></p>
-                  <p>Wait time: <span className="font-medium">{pathResult.totalWaitTime} minutes</span></p>
-                  <p>Transfers: <span className="font-medium">{pathResult.transfers}</span></p>
+                <div className="route-summary p-6 bg-white rounded-lg shadow-lg mb-6">
+                  <h3 className="text-lg font-bold mb-4 text-gray-800">Quickest Route Summary</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-gray-600">Total time</p>
+                      <p className="text-lg font-semibold text-gray-800">{pathResult.totalTime} minutes</p>
+                    </div>
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-gray-600">Travel time</p>
+                      <p className="text-lg font-semibold text-gray-800">{pathResult.totalTravelTime} minutes</p>
+                    </div>
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-gray-600">Wait time</p>
+                      <p className="text-lg font-semibold text-gray-800">{pathResult.totalWaitTime} minutes</p>
+                    </div>
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-gray-600">Transfers</p>
+                      <p className="text-lg font-semibold text-gray-800">{pathResult.transfers}</p>
+                    </div>
+                  </div>
                 </div>
               )}
-              <RouteDetails pathResult={pathResult} />
+              <div className="bg-white rounded-lg shadow-lg p-4">
+                <RouteDetails pathResult={pathResult} />
+              </div>
             </div>
           </div>
         )}
       </main>
       
-      <footer className="mt-10 text-center text-gray-500 text-sm">
+      <footer className="mt-12 text-center text-gray-500 text-sm">
         <p>Created with React, TypeScript, and Dijkstra's algorithm</p>
         <p className="mt-1">© {new Date().getFullYear()} NYC Subway Pathfinder</p>
       </footer>
