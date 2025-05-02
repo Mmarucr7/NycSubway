@@ -80,7 +80,7 @@ function App() {
             />
           </div>
           
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-6">
             {startStation && endStation && (
               <button 
                 onClick={() => {
