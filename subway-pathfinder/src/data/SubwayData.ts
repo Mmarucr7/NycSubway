@@ -2,7 +2,7 @@ export interface Station {
   id: string;
   name: string;
   lines: string[];
-  waitTime: number; // average wait time in minutes
+  waitTime: number;
   latitude?: number;
   longitude?: number;
 }
@@ -11,7 +11,7 @@ export interface Connection {
   from: string;
   to: string;
   line: string;
-  time: number; // travel time in minutes
+  time: number;
 }
 
 // NYC Subway Lines
@@ -41,7 +41,6 @@ export const SUBWAY_LINES = [
   { id: 'S', color: '#808183', name: 'S Line' },
 ];
 
-// Sample of NYC Subway Stations
 export const STATIONS: Station[] = [
   { id: 'times_sq', name: 'Times Square - 42nd St', lines: ['1', '2', '3', 'N', 'Q', 'R', 'W', '7', 'S'], waitTime: 2, latitude: 40.7556, longitude: -73.9867 },
   { id: 'grand_central', name: 'Grand Central - 42nd St', lines: ['4', '5', '6', '7', 'S'], waitTime: 3, latitude: 40.7527, longitude: -73.9772 },
@@ -60,7 +59,6 @@ export const STATIONS: Station[] = [
   { id: 'chambers', name: 'Chambers St', lines: ['1', '2', '3', 'A', 'C', 'J', 'Z'], waitTime: 2, latitude: 40.7134, longitude: -74.0098 },
 ];
 
-// Sample connections between stations
 export const CONNECTIONS: Connection[] = [
   { from: 'times_sq', to: 'grand_central', line: '7', time: 4 },
   { from: 'times_sq', to: 'herald_sq', line: 'N', time: 3 },
@@ -88,7 +86,6 @@ export const CONNECTIONS: Connection[] = [
   { from: 'delancey', to: 'canal_st', line: 'J', time: 3 },
 ];
 
-// Add reverse connections (subway lines go both ways)
 export const BIDIRECTIONAL_CONNECTIONS: Connection[] = [
   ...CONNECTIONS,
   ...CONNECTIONS.map(conn => ({
