@@ -15,7 +15,6 @@ const RouteDetails: React.FC<RouteDetailsProps> = ({ pathResult }) => {
     );
   }
 
-  // Group segments by line to show transfers clearly
   const groupSegmentsByLine = (segments: PathSegment[]) => {
     const groups: { line: string, segments: PathSegment[], color: string }[] = [];
     let currentGroup: { line: string, segments: PathSegment[], color: string } | null = null;

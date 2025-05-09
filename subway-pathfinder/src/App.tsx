@@ -18,10 +18,8 @@ function App() {
     if (startStation && endStation && showRoute) {
       setIsLoading(true)
       
-      // Use a small timeout to allow the UI to update before running the algorithm
       setTimeout(() => {
         try {
-          // Calculate quickest route using Dijkstra's algorithm
           const result = findShortestPath(
             STATIONS,
             BIDIRECTIONAL_CONNECTIONS,
@@ -31,7 +29,6 @@ function App() {
           
           setPathResult(result)
           
-          // Convert path segments to connections for the map
           const connections = result.path.map(segment => ({
             from: segment.from.id,
             to: segment.to.id,

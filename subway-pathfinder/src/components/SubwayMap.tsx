@@ -23,22 +23,19 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
   const [mapInfoWindows, setMapInfoWindows] = useState<google.maps.InfoWindow[]>([]);
   const [error, setError] = useState<string | null>(null);
   
-  // Initialize the map
   useEffect(() => {
     if (!mapRef.current) return;
     
-    // Ensure Google Maps is available
     if (!window.google || !window.google.maps) {
       console.error("Google Maps API not available");
       setError("Google Maps API not available. Please check your internet connection and try again.");
       return;
     }
     
-    if (map) return; // Don't re-initialize if we already have a map
+    if (map) return;
     
     try {
       console.log("Creating new Google Map instance");
-      // Initialize map centered on New York City
       const newMap = new window.google.maps.Map(mapRef.current, {
         center: { lat: 40.75, lng: -73.98 },
         zoom: 12,
@@ -62,21 +59,17 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
     }
   }, [mapRef.current, window.google]);
   
-  // Update the map when props change
   useEffect(() => {
     if (!map) return;
     
-    // Clear existing markers and polylines
     mapMarkers.forEach(marker => marker.setMap(null));
     mapPolylines.forEach(polyline => polyline.setMap(null));
     mapInfoWindows.forEach(infoWindow => infoWindow.close());
     
-    // Prepare arrays for new map elements
     const markers: google.maps.Marker[] = [];
     const infoWindows: google.maps.InfoWindow[] = [];
     const allPolylines: google.maps.Polyline[] = [];
     
-    // Create markers for stations
     stations.forEach(station => {
       if (!station.latitude || !station.longitude) return;
       
@@ -84,13 +77,13 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
       const isEnd = station.id === endStation;
       const isOnPath = path.some(conn => conn.from === station.id || conn.to === station.id);
       
-      let iconColor = '#FFFFFF'; // Default white
+      let iconColor = '#FFFFFF';
       if (isStart) {
-        iconColor = '#00FF00'; // Green for start
+        iconColor = '#00FF00';
       } else if (isEnd) {
-        iconColor = '#FF0000'; // Red for end
+        iconColor = '#FF0000';
       } else if (isOnPath) {
-        iconColor = '#0066FF'; // Blue for path
+        iconColor = '#0066FF';
       }
       
       const marker = new window.google.maps.Marker({
@@ -109,7 +102,6 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
       
       markers.push(marker);
       
-      // Create info window with station info
       const infoContent = `
         <div class="station-info">
           <h3>${station.name}</h3>
@@ -141,22 +133,17 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
       infoWindows.push(infoWindow);
       
       marker.addListener('click', () => {
-        // Close all other info windows
         infoWindows.forEach(iw => iw.close());
-        
-        // Open this info window
         infoWindow.open(map, marker);
       });
     });
     
-    // Draw all connections as thin lines
     connections.forEach(connection => {
       const from = stations.find(s => s.id === connection.from);
       const to = stations.find(s => s.id === connection.to);
       
       if (!from || !to || !from.latitude || !from.longitude || !to.latitude || !to.longitude) return;
       
-      // Find the line color
       const line = SUBWAY_LINES.find(l => l.id === connection.line);
       
       const polyline = new window.google.maps.Polyline({
@@ -173,9 +160,7 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
       allPolylines.push(polyline);
     });
     
-    // Draw the path as thicker lines
     if (path.length > 0) {
-      // Create a map to group segments by subway line
       const lineSegments = new Map<string, { points: google.maps.LatLngLiteral[], color: string }>();
       
       path.forEach(connection => {
@@ -202,7 +187,6 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
         }
       });
       
-      // Draw each line segment with its own color
       lineSegments.forEach((segment, lineId) => {
         const polyline = new window.google.maps.Polyline({
           path: segment.points,
@@ -215,7 +199,6 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
         allPolylines.push(polyline);
       });
       
-      // Auto zoom and center to fit the route
       if (path.length > 0) {
         const bounds = new window.google.maps.LatLngBounds();
         
@@ -232,12 +215,10 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
           }
         });
         
-        // Add some padding to the bounds
         map.fitBounds(bounds);
       }
     }
     
-    // Create legend
     const legend = document.createElement('div');
     legend.className = 'map-legend';
     legend.innerHTML = `
@@ -297,14 +278,11 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
       </div>
     `;
     
-    // Clear any existing legends first
     const existingLegends = document.querySelectorAll('.map-legend');
     existingLegends.forEach(el => el.remove());
     
-    // Add the new legend
     map.controls[window.google.maps.ControlPosition.TOP_LEFT].push(legend);
     
-    // Store references to map elements for cleanup
     setMapMarkers(markers);
     setMapPolylines(allPolylines);
     setMapInfoWindows(infoWindows);
@@ -331,7 +309,6 @@ const SubwayMap: React.FC<SubwayMapProps> = ({
   );
 };
 
-// Add type definitions for the Google Maps
 declare global {
   interface Window {
     google: typeof google;
